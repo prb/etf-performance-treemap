@@ -1,0 +1,68 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "etf-treemap"
+version = "0.1.0"
+description = "ETF Holdings Performance Treemap Visualization Tool"
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.12"
+authors = [
+    {name = "Multifarious, LLC"}
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Financial and Insurance Industry",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+]
+
+dependencies = [
+    "yfinance>=1.7.0",
+    "matplotlib>=3.11.2",
+    "squarify>=0.4.5",
+    # zoneinfo (America/New_York market clock) needs the IANA tz database,
+    # which Windows does not ship.
+    "tzdata>=2025.2",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.2.0",
+    "hypothesis>=6.170.14",
+    "pytest-cov>=7.1.0",
+]
+
+[project.scripts]
+etf-treemap = "etf_treemap.main:main"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = [
+    "--verbose",
+    "--cov=etf_treemap",
+    "--cov-report=term-missing",
+]
+
+[tool.coverage.run]
+source = ["etf_treemap"]
+omit = ["tests/*", "**/__pycache__/*"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "pass",
+]
+
+[tool.uv]
+exclude-newer = "P3D"
